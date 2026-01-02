@@ -24,7 +24,25 @@ def transformRotation(rotation):
 def handleDial(dial, change):
     return mod(dial + change, 100)
 
+def part2(data):
+    password = 0
+    current_abs = 50
+    for line in data.splitlines():
+        change = transformRotation(line)
+        next_abs = current_abs + change
+        
+        if change > 0:
+            count = (next_abs // 100) - (current_abs // 100)
+        else:
+            count = ((current_abs - 1) // 100) - ((next_abs - 1) // 100)
+            
+        password += count
+        current_abs = next_abs
+
+    return password
+
 with open("day01/input.txt") as f:
     data = f.read().strip()
 
 print('part1:', part1(data))
+print('part2:', part2(data))
